@@ -1,0 +1,60 @@
+users:
+  signUp:
+    username: signupuser
+    email: signupuser@example.com
+    password: password123
+  signIn:
+    username: signinuser
+    email: signinuser@example.com
+    password: password123
+  createArticle:
+    username: createarticleuser
+    email: createarticleuser@example.com
+    password: password123
+  followerUser:
+    username: followeruser
+    email: followeruser@example.com
+    password: password123
+  followedUser:
+    username: followeduser
+    email: followeduser@example.com
+    password: password123
+  modifyArticleUser:
+    username: modifyarticleuser
+    email: modifyarticleuser@example.com
+    password: password123
+  commentUser:
+    username: commentuser
+    email: commentuser@example.com
+    password: password123
+articles:
+  createArticle:
+    title: Gemini AI
+    description: Gemini is a LLM model from Google
+    body: Gemini is a new LLM model from Google
+    tags: [ai, google]
+  followFeedArticle:
+    title: Follow Feed Article
+    description: This is a follow feed article
+    body: This is the body of the follow feed article
+    tags: [test, e2e]
+  modifyArticleOriginal:
+    title: Claude AI
+    description: Claude is a LLM model from Anthropic
+    body: Claude is a new LLM model from Anthropic
+    tags: [ai, anthropic]
+  modifyArticleUpdated:
+    title: Updated Claude AI 2
+    description: Updated Claude is a LLM model from Anthropic
+    body: Updated Claude is a new LLM model from Anthropic
+    tags: [ai, anthropic]
+  deleteArticle:
+    title: OpenAI
+    description: OpenAI is a LLM model from OpenAI
+    body: OpenAI is a new LLM model from OpenAI
+    tags: [ai, openai]
+  commentArticle:
+    title: Comment AI
+    description: Comment is a LLM model from Comment
+    body: Comment is a new LLM model from Comment
+    tags: [ai, comment]

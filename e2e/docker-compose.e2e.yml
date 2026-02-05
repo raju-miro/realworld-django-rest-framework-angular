@@ -1,0 +1,21 @@
+# docker compose -f e2e/docker-compose.e2e.yml run --rm e2e
+# docker compose -f e2e/docker-compose.e2e.yml run --rm --build e2e
+# docker compose -f e2e/docker-compose.e2e.yml run --rm e2e npx playwright test tests/<filename>.spec.ts
+# docker compose -f e2e/docker-compose.e2e.yml run --rm e2e npx playwright test --project=chromium
+
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    environment:
+      - BASE_URL=http://localhost:4200
+      - API_URL=http://localhost:8000/api/
+      - CI=true
+      - RETRIES=2
+      - WORKERS=1
+    volumes:
+      - .:/app
+      - ./results:/app/results
+      - /app/node_modules

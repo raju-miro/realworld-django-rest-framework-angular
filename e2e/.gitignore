@@ -1,0 +1,8 @@
+node_modules
+!results/.gitkeep
+playwright-report
+test-results
+playwright/.cache/
+*.log
+.env
+dist
