@@ -7,7 +7,6 @@ export class SignInPage extends BasePage {
   readonly emailInput: Locator = this.page.getByPlaceholder('Email');
   readonly passwordInput: Locator = this.page.getByPlaceholder('Password');
   readonly submitButton: Locator = this.page.getByRole('button', { name: 'Sign in' });
-  readonly successMessage: Locator = this.page.locator('.success-messages');
   readonly errorMessage: Locator = this.page.locator('.error-messages').first();
 
   async navigateTo(): Promise<void> {

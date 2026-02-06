@@ -25,7 +25,6 @@ This test suite automatically opens real web browsers (Chrome, Firefox, and Safa
 - [Code Quality](#code-quality)
 - [CI/CD Integration](#cicd-integration)
 - [Writing a New Test](#writing-a-new-test)
-- [npm Scripts](#npm-scripts)
 - [Test Reports](#test-reports)
 - [Troubleshooting](#troubleshooting)
 - [Future Enhancements](#future-enhancements)
@@ -104,13 +103,15 @@ e2e/
 
 ## Running Tests
 
-### Inside Docker (Recommended)
-
-Start the application using Docker Compose:
+**Pre-requisites:**
+- Start the application using Docker Compose:
 
 ```bash
 docker compose up -d
 ```
+
+### Inside Docker (Recommended)
+
 
 Docker ensures consistent browser versions and system dependencies across all environments. The container uses `network_mode: host`, so `localhost` inside the container points to your host machine.
 
@@ -253,6 +254,7 @@ const user = getUser('signUp');
 | `AuthUtils` | `utils/auth.utils.ts` | Injects an auth token into `localStorage` and reloads the page. |
 | `getUser()` / `getArticle()` | `utils/data.utils.ts` | Reads test data from YAML and appends UUID suffixes for uniqueness. |
 | `waitUntilServiceIsReady()` | `utils/setup.utils.ts` | Polls a URL until it responds with HTTP 200 (used in global setup). |
+| `User` / `Article` | `utils/types.utils.ts` | TypeScript interfaces for test data objects (used throughout tests and utilities). |
 
 ---
 
@@ -285,7 +287,9 @@ Linting and formatting are checked automatically in CI (see below), so code that
 
 ## CI/CD Integration
 
-Tests run automatically on every push and pull request via **GitHub Actions**. The CI pipeline (`.github/workflows/ci.yml`) performs the following steps for the E2E suite:
+Tests run automatically on every push and pull request via **GitHub Actions**. The CI pipeline (`.github/workflows/ci.yml`) runs several jobs in parallel: **linting** (pre-commit hooks), **Angular tests**, **Django tests**, and **E2E tests**.
+
+The E2E job performs the following steps:
 
 1. **Install dependencies** -- `npm install` in the `e2e/` directory.
 2. **Lint** -- checks for ESLint violations (`npm run lint`).
@@ -350,29 +354,26 @@ Create a class in `pages/` extending `BasePage`, then:
 
 ### Step 4: Run Your Test
 
+**Inside Docker:**
+
 ```bash
-npx playwright test tests/060-my-feature.spec.ts
-npx playwright test tests/060-my-feature.spec.ts --headed
-npx playwright test tests/060-my-feature.spec.ts --debug
+docker compose -f e2e/docker-compose.e2e.yml run --rm e2e npx playwright test tests/060-my-feature.spec.ts
 ```
 
----
+**Outside Docker (local):** gives you access to headed mode and the Playwright Inspector.
 
-## npm Scripts
+```bash
+cd e2e
 
-| Script | Description |
-|---|---|
-| `npm run setup` | Install Playwright browsers |
-| `npm test` | Run all tests (headless) |
-| `npm run test:headed` | Run tests with visible browser |
-| `npm run test:chromium` | Chromium only |
-| `npm run test:firefox` | Firefox only |
-| `npm run test:webkit` | WebKit (Safari) only |
-| `npm run report` | Open the HTML test report |
-| `npm run lint` | Check for linting errors |
-| `npm run lint:fix` | Auto-fix linting errors |
-| `npm run format` | Format all TypeScript files |
-| `npm run format:check` | Check formatting without changes |
+# Headless
+npx playwright test tests/060-my-feature.spec.ts
+
+# With visible browser
+npx playwright test tests/060-my-feature.spec.ts --headed
+
+# Debug with Playwright Inspector
+npx playwright test tests/060-my-feature.spec.ts --debug
+```
 
 ---
 

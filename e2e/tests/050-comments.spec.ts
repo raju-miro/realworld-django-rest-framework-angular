@@ -19,7 +19,7 @@ describe('Comments', () => {
   test('Should be able to add and delete a comment to an article', async ({ createBrowserBot }) => {
     const browserBot = await createBrowserBot(token);
     await browserBot.articlePage.openArticleBySlug(articleSlug);
-    await browserBot.articlePage.addComment(article.title, 'Test Comment');
+    await browserBot.articlePage.addComment('Test Comment');
     await browserBot.articlePage.deleteComment('Test Comment');
     await expect(browserBot.articlePage.commentBody).toHaveCount(0);
   });

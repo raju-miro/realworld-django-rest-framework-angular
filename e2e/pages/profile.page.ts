@@ -11,7 +11,6 @@ export interface ArticlePreview {
 export class ProfilePage extends BasePage {
   readonly url = '/#/my-profile';
 
-  readonly articlesToggle: Locator = this.page.locator('.articles-toggle');
   readonly articlesPreview: Locator = this.page.locator('.article-preview');
   readonly articleTitle: Locator = this.page.locator('.preview-link h1');
   readonly articlesLoaded: Locator = this.page.locator('.article-preview:not(:has-text("Loading"))');

@@ -13,9 +13,7 @@ export class ArticlePage extends BasePage {
   readonly commentSubmitButton: Locator = this.page.getByRole('button', { name: 'Post Comment' });
   readonly commentBody: Locator = this.page.locator('.card-text');
   readonly commentCard: Locator = this.page.locator('.card');
-  readonly commentDeleteButton: Locator = this.page.locator('.mod-options .ion-trash-a');
   readonly successMessage: Locator = this.page.locator('.success-messages');
-  readonly errorMessage: Locator = this.page.locator('.error-messages').first();
   readonly editArticleButton: Locator = this.page.getByRole('button', { name: 'Edit Article' }).first();
   readonly deleteArticleButton: Locator = this.page.getByRole('button', { name: 'Delete Article' }).first();
 
@@ -47,10 +45,16 @@ export class ArticlePage extends BasePage {
     await this.waitForVisible(this.commentInput);
   }
 
-  async addComment(title: string, comment: string): Promise<void> {
+  async addComment(comment: string): Promise<void> {
     await this.commentInput.fill(comment);
+    await expect(this.commentInput).toHaveValue(comment);
+    const responsePromise = this.page.waitForResponse(
+      (resp) => resp.url().includes('/comments') && resp.request().method() === 'POST',
+    );
     await this.commentSubmitButton.click();
-    await this.waitForVisible(this.commentBody.filter({ hasText: comment }));
+    const response = await responsePromise;
+    expect(response.status()).toBe(201);
+    await this.waitForVisible(this.commentBody.filter({ hasText: comment }), 30000);
   }
 
   async deleteComment(comment: string): Promise<void> {
